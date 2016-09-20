@@ -1,4 +1,4 @@
-var Gpio = require("onoff");
+var Gpio = require("onoff").Gpio;
 var config = require("./config");
 var hostname = config.hostname;
 var socket = require('socket.io-client')('https://'+hostname);
