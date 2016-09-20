@@ -1,0 +1,28 @@
+{
+  "name": "rpi-client",
+  "version": "1.0.0",
+  "description": "will be added later",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/HomeAutomationSystem/RPi-Client.git"
+  },
+  "keywords": [
+    "Home",
+    "Automation",
+    "System"
+  ],
+  "author": "Aman Vishnani (aman62@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/HomeAutomationSystem/RPi-Client/issues"
+  },
+  "homepage": "https://gitlab.com/HomeAutomationSystem/RPi-Client#README",
+  "dependencies": {
+    "onoff": "^1.1.1",
+    "socket.io-client": "^1.4.8"
+  }
+}
