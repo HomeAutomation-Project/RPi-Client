@@ -44,4 +44,5 @@ process.on('SIGINT',function()
         arr[i].unexport();
         console.log("Unexport "+i);
     }
+    process.exit();
 })
