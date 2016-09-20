@@ -33,8 +33,8 @@ socket.on('Success',function(data) {
     for(var i=0;i<data.data.switches.length;i++)
     {
         arr[i] = new Gpio(data.data.switches[i].GPIO,'out');
+        console.log("Set "+data.data.switches[i].GPIO+" to Out");
     }
-    console.log(data.switches);
 })
 
 process.on('SIGINT',function()
@@ -42,5 +42,6 @@ process.on('SIGINT',function()
     for(var i=0;i<arr.length;i++)
     {
         arr[i].unexport();
+        console.log("Unexport "+i);
     }
 })
