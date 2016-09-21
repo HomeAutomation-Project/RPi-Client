@@ -11,11 +11,13 @@ function sameArray(x)
 {
     if(x.length !== arr.length)
     {
+        console.log('Array Length Mismatch');
         return false;
     }
     for(var i=0; i<x.length;i++)
     {
         if(arr[i].GPIO != x.GPIO)
+        console.log('GPIO Mismatch');
         return false;
     }
     return true;
