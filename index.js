@@ -98,7 +98,8 @@ socket.on('Update',function(data) {
             PIRvalue = value;
         });    
     }
-    if(sameArray(data.data.switches))
+    var tf =sameArray(data.data.switches);
+    if(tf)
     {
         for(i=0;i<data.data.switches.length;i++)
         {
