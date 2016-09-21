@@ -41,11 +41,11 @@ function myVal(x) {
     }
 }
 
-function Switches(lGPIO,lStatus)
+function Switches(lGPIO,lStatus,direction)
 {
     this.GPIO = lGPIO;
     this.status = lStatus;
-    this.link = new Gpio(this.GPIO,lStatus);
+    this.link = new Gpio(this.GPIO,direction);
 }
 
 
@@ -74,7 +74,7 @@ socket.on('Success',function(data) {
     }
     for(var i=0;i<data.data.switches.length;i++)
     {
-        arr[i] = new Switches(data.data.switches[i].GPIO,'out');
+        arr[i] = new Switches(data.data.switches[i].GPIO,data.data.switches[i].status,'out');
         arr[i].link.writeSync(myVal(arr[i].status));
         console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
     }
