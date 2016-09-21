@@ -11,14 +11,14 @@ function sameArray(x)
 {
     if(x.length !== arr.length)
     {
-        console.log('Array Length Mismatch');
+        //console.log('Array Length Mismatch');
         return false;
     }
     for(var i=0; i<x.length;i++)
     {
         if(arr[i].GPIO != x[i].GPIO)
         {
-            console.log('GPIO Mismatch'+arr[i].GPIO+" != "+x);
+            //console.log('GPIO Mismatch'+arr[i].GPIO+" != "+x);
             return false;
         }
     }
@@ -26,12 +26,14 @@ function sameArray(x)
 }
 
 function myVal(x) {
-    if(x==='ON')
+    if(x ==='ON')
     {
-        return 0;
+	//console.log('Status'+x);
+        return 1;
     }else if(x === 'OFF')
     {
-        return 1;
+	//console.log('Status'+x);
+        return 0;
     }else if(x ==='PIR' && PIRvalue)
     {
         return PIRvalue;
@@ -61,7 +63,7 @@ socket.on('Request',function(data){
 });
 
 socket.on('Success',function(data) {
-    //console.log(data.data);
+    console.log(data.data.switches[0].status);
     if(data.PIR)
     {
         PIRpin = data.PIR;
@@ -76,12 +78,14 @@ socket.on('Success',function(data) {
     {
         arr[i] = new Switches(data.data.switches[i].GPIO,data.data.switches[i].status,'out');
         arr[i].link.writeSync(myVal(arr[i].status));
-        console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
+        //console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
     }
+	console.log(JSON.stringify(arr));
     socket.emit('Request',APIKey);
 });
 
 socket.on('Update',function(data) {
+    //console.log(data.data.switches[0].status);
     if(data.PIR && PIRpin != data.PIR)
     {
         for(var i = 0; i<arr.length;i++)
@@ -105,8 +109,10 @@ socket.on('Update',function(data) {
     {
         for(i=0;i<data.data.switches.length;i++)
         {
-            arr[i].link.writeSync(myVal(arr[i].status));
-            console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
+		var tf= myVal(data.data.switches[i].status);
+		console.log(tf);
+            arr[i].link.writeSync(tf);
+            //console.log("Set "+arr[i].GPIO+" to "+data.data.switches[i].status);
         }
         socket.emit('Request',APIKey);
     }
@@ -120,8 +126,8 @@ socket.on('Update',function(data) {
         for(i=0 ; i<arr.length;i++)
         {
             arr[i].link.unwatch();
-            console.log('BP1');
-            console.log("Unwatched "+arr[i].GPIO);
+            //console.log('BP1');
+            //console.log("Unwatched "+arr[i].GPIO);
         }
         socket.emit('Authenticate',APIKey);
     }
