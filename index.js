@@ -7,6 +7,20 @@ var PIRpin,PIRvalue,PIR;
 
 var arr = [];
 
+function sameArray(x)
+{
+    if(x.length !== arr.length)
+    {
+        return false;
+    }
+    for(var i=0; i<x.length;i++)
+    {
+        if(arr[i].GPIO != x.GPIO)
+        return false;
+    }
+    return true;
+}
+
 function myVal(x) {
     if(x==='ON')
     {
@@ -21,6 +35,13 @@ function myVal(x) {
     {
         return 0;
     }
+}
+
+function Switches(lGPIO,lStatus)
+{
+    this.GPIO = lGPIO;
+    this.status = lStatus;
+    this.link = new Gpio(this.GPIO,lStatus);
 }
 
 
@@ -49,11 +70,9 @@ socket.on('Success',function(data) {
     }
     for(var i=0;i<data.data.switches.length;i++)
     {
-        arr[i].link = new Gpio(data.data.switches[i].GPIO,'out');
-        arr[i].GPIO = data.data.switches[i].GPIO;
-        arr[i].status = data.data.switches[i].status;
+        arr[i] = new Switches(data.data.switches[i].GPIO,'out');
         arr[i].link.writeSync(myVal(arr[i].status));
-        console.log("Set "+data.data.switches[i].GPIO+" to Out");
+        console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
     }
     socket.emit('Request',APIKey);
 });
@@ -77,12 +96,29 @@ socket.on('Update',function(data) {
             PIRvalue = value;
         });    
     }
-    for(var i=0;i<data.data.switches.length;i++)
+    if(sameArray(data.data.switches))
     {
-        arr[i].link.writeSync(myVal(arr[i].status));
-        console.log("Set "+data.data.switches[i].GPIO+" to "+arr[i].status);
+        for(i=0;i<data.data.switches.length;i++)
+        {
+            arr[i].link.writeSync(myVal(arr[i].status));
+            console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
+        }
+        socket.emit('Request',APIKey);
     }
-    socket.emit('Request',APIKey);
+    else
+    {
+        if(PIR)
+        {
+            PIR.unwatchAll();
+            PIR.unexport();
+        }
+        for(i=0 ; i<arr.length;i++)
+        {
+            arr[i].link.unwatch();
+            console.log("Unwatched "+arr[i].GPIO);
+        }
+        socket.emit('Authenticate',APIKey);
+    }
     return;
 });
 
