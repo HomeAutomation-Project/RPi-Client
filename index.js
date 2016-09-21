@@ -99,6 +99,7 @@ socket.on('Update',function(data) {
         });    
     }
     var tf =sameArray(data.data.switches);
+    console.log(tf);
     if(tf)
     {
         for(i=0;i<data.data.switches.length;i++)
