@@ -117,6 +117,7 @@ socket.on('Update',function(data) {
         for(i=0 ; i<arr.length;i++)
         {
             arr[i].link.unwatch();
+            console.log('BP1');
             console.log("Unwatched "+arr[i].GPIO);
         }
         socket.emit('Authenticate',APIKey);
