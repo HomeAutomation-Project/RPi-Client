@@ -17,7 +17,7 @@ function sameArray(x)
     for(var i=0; i<x.length;i++)
     {
         if(arr[i].GPIO != x.GPIO)
-        console.log('GPIO Mismatch');
+        console.log('GPIO Mismatch'+arr[i].GPIO+" != "+x.GPIO);
         return false;
     }
     return true;
