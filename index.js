@@ -64,9 +64,9 @@ socket.on('Request',function(data){
 
 socket.on('Success',function(data) {
     console.log(data.data.switches[0].status);
-    if(data.PIR)
+    if(data.data.PIR)
     {
-        PIRpin = data.PIR;
+        PIRpin = data.data.PIR;
         PIR = new Gpio(PIRpin,'in');
         PIR.watch(function(err,value)
         {
@@ -86,7 +86,7 @@ socket.on('Success',function(data) {
 
 socket.on('Update',function(data) {
     //console.log(data.data.switches[0].status);
-    if(data.PIR && PIRpin != data.PIR)
+    if(data.data.PIR && PIRpin != data.data.PIR)
     {
         for(var i = 0; i<arr.length;i++)
         {
@@ -96,7 +96,7 @@ socket.on('Update',function(data) {
                 arr.splice(i,1);
             }
         }
-        PIRpin = data.PIR;
+        PIRpin = data.data.PIR;
         PIR = new Gpio(PIRpin,'in');
         PIR.watch(function(err,value)
         {
