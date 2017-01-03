@@ -66,6 +66,7 @@ socket.on('Success',function(data) {
     console.log(data.data.switches[0].status);
     if(data.data.PIR)
     {
+	console.log("Success -  PIR:"+data.data.PIR);
         PIRpin = data.data.PIR;
         PIR = new Gpio(PIRpin,'in');
         PIR.watch(function(err,value)
@@ -73,12 +74,13 @@ socket.on('Success',function(data) {
             if(err) throw err;
             PIRvalue = value;
         });
+	console.log("PIR Watching");
     }
     for(var i=0;i<data.data.switches.length;i++)
     {
         arr[i] = new Switches(data.data.switches[i].GPIO,data.data.switches[i].status,'out');
         arr[i].link.writeSync(myVal(arr[i].status));
-        //console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
+        console.log("Set "+arr[i].GPIO+" to "+arr[i].status);
     }
 	console.log(JSON.stringify(arr));
     socket.emit('Request',APIKey);
